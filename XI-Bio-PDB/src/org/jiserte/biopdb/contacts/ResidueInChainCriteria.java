@@ -1,6 +1,13 @@
 package org.jiserte.biopdb.contacts;
 
 import annotations.NeverUsed;
+import pair.Pair;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.jiserte.biopdb.structures.Chain;
 import org.jiserte.biopdb.structures.Residue;
 
 
@@ -62,6 +69,20 @@ public class ResidueInChainCriteria extends ChainCriteria {
   @Override
   public double getUsedDistance() {
     return 0;
+  }
+  @Override
+  public boolean requiresEntirePDB() {
+    return false;
+  }
+  @Override
+  public void setEntirePDB(Map<Character, Chain> pdb) {}
+  @Override
+  public boolean canProvideCandidates() {
+    return false;
+  }
+  @Override
+  public Set<Pair<Residue, Residue>> getCandidates() {
+    return new HashSet<>();
   }
 
 }

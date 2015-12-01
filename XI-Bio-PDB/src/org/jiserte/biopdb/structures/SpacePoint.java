@@ -224,5 +224,13 @@ public abstract class SpacePoint {
   public void setCharge(char[] charge) {
     this.charge = charge;
   }
+  
+  @Override
+  public String toString() {
+    return this.getType()+": "+String.valueOf(this.getAtomName())+":"+
+  this.getAtomSerialNumber()+" "+ String.valueOf(this.getResidueName()) + ":" +
+        this.getResidueSequenceNumber();
+    
+  }
 
 }

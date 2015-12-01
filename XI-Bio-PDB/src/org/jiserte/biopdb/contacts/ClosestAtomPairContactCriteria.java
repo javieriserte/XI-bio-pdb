@@ -1,6 +1,12 @@
 package org.jiserte.biopdb.contacts;
 
 import pair.Pair;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.jiserte.biopdb.structures.Chain;
 import org.jiserte.biopdb.structures.Residue;
 import org.jiserte.biopdb.structures.SpacePoint;
 
@@ -111,7 +117,23 @@ public class ClosestAtomPairContactCriteria extends ContactCriteria {
   }
 	////////////////////////////////////////////////////////////////////////////
 
+  @Override
+  public boolean requiresEntirePDB() {
+    return false;
+  }
 
+  @Override
+  public void setEntirePDB(Map<Character, Chain> pdb) {}
 
+  @Override
+  public boolean canProvideCandidates() {
+    return false;
+  }
+
+  @Override
+  public Set<Pair<Residue, Residue>> getCandidates() {
+
+    return new HashSet<>();
+  }
 
 }

@@ -3,11 +3,15 @@ package org.jiserte.biopdb.contacts;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import annotations.NeverUsed;
 import pair.Pair;
+
+import org.jiserte.biopdb.structures.Chain;
 import org.jiserte.biopdb.structures.Residue;
 import org.jiserte.biopdb.structures.SpacePoint;
 
@@ -123,6 +127,44 @@ public class AndContactCriteria extends ContactCriteria {
       maxDistance = Math.max(criteria.getUsedDistance(), maxDistance);
     }
     return maxDistance;
+  }
+
+  @Override
+  public boolean requiresEntirePDB() {
+    boolean result= false;
+    for (ContactCriteria criteria : this.getCriterias()) {
+      result = result && criteria.requiresEntirePDB();
+    }
+    
+    return result;
+  }
+
+  @Override
+  public void setEntirePDB(Map<Character, Chain> pdb) {
+    for (ContactCriteria criteria : this.getCriterias()) {
+      criteria.setEntirePDB(pdb);
+    }    
+  }
+
+  @Override
+  public boolean canProvideCandidates() {
+    boolean result = false;
+    for (ContactCriteria criteria : this.getCriterias()) {
+      result = result || criteria.canProvideCandidates();
+    }
+    return result;
+  }
+
+  @Override
+  public Set<Pair<Residue, Residue>> getCandidates() {
+    
+    Set<Pair<Residue, Residue>> results = new HashSet<>();
+    
+    for (ContactCriteria criteria : this.getCriterias()) {
+      results.addAll(criteria.getCandidates());
+    }
+    return results;
+    
   }
 
 }

@@ -3,6 +3,7 @@ package org.jiserte.biopdb.contactmap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import pair.Pair;
 import org.jiserte.biopdb.contacts.ContactCriteria;
@@ -26,34 +27,55 @@ public class ContactMapListGenerator {
 	 * @param criteria
 	 * @return
 	 */
-	public List<Pair<SpacePoint,SpacePoint>> getSpacePointsInContact(Map<Character,Chain> pdb, ContactCriteria criteria) {
+	public List<Pair<SpacePoint,SpacePoint>> getSpacePointsInContact(
+	    Map<Character,Chain> pdb, ContactCriteria criteria) {
 		
-		List<Pair<SpacePoint,SpacePoint>> result = new ArrayList<Pair<SpacePoint,SpacePoint>>();
-
-		List<Residue> residues = new ArrayList<Residue>();
+		List<Pair<SpacePoint,SpacePoint>> result = 
+		    new ArrayList<Pair<SpacePoint,SpacePoint>>();
 		
-		for (Chain chain : pdb.values()) {
+		if (criteria.canProvideCandidates()) {
+		  
+		  Set<Pair<Residue, Residue>> candidates = criteria.getCandidates();
+		  
+		  for (Pair<Residue, Residue> candidate : candidates) {
+		    
+        Pair<SpacePoint, SpacePoint> pair = criteria.areInContact(
+            candidate.getFirst(), candidate.getSecond());
+        
+        if (pair!=null) {
+          
+          result.add(pair);
+          
+        }
+		  }
+		  
+		} else {
 
-			residues.addAll(chain.getResiduesCollection());
-			
+  		List<Residue> residues = new ArrayList<Residue>();
+  		
+  		for (Chain chain : pdb.values()) {
+  
+  			residues.addAll(chain.getResiduesCollection());
+  			
+  		}
+  			
+  		for (int i =0 ; i< residues.size() -1 ; i++) {
+  			
+  			for (int j =i+1 ;j< residues.size() ; j++) {
+  
+  				Pair<SpacePoint, SpacePoint> pair = criteria.areInContact(
+  				    residues.get(i), residues.get(j));
+  				
+  				if (pair!=null) {
+  					
+  					result.add(pair);
+  					
+  				}
+  				
+  			}
+  			
+  		}
 		}
-			
-		for (int i =0 ; i< residues.size() -1 ; i++) {
-			
-			for (int j =i+1 ;j< residues.size() ; j++) {
-
-				Pair<SpacePoint, SpacePoint> pair = criteria.areInContact(residues.get(i), residues.get(j));
-				
-				if (pair!=null) {
-					
-					result.add(pair);
-					
-				}
-				
-			}
-			
-		}
-		
 		return result;
 		
 	}

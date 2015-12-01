@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.jiserte.biopdb.contacts.AndContactCriteria;
+import org.jiserte.biopdb.contacts.ClosestAtomPairContactBinnedCriteria;
 import org.jiserte.biopdb.contacts.ClosestAtomPairContactCriteria;
 import org.jiserte.biopdb.contacts.ContactCriteria;
 import org.jiserte.biopdb.contacts.ResidueInChainCriteria;
@@ -21,6 +22,7 @@ public class ContactCriteriaValue extends ReturnValueParser<ContactCriteria> {
   public static final String CRITERIA_INCHAIN = "chain";
   public static final String CRITERIA_MANYCHAINS = "chains";
   public static final String CRITERIA_DIFF_CHAIN = "diffchain";
+  public static final String CRITERIA_CLOSEST_BINNED = "binned";
 
   // ///////////////////////////////////////////////////////////////////////////
 
@@ -37,15 +39,24 @@ public class ContactCriteriaValue extends ReturnValueParser<ContactCriteria> {
       // Slipt fields into criteria
       String[] data = criteriaStrings[i].split(",");
       // Check for every individual criteria
+      double distance;
       switch (data[0].toLowerCase()) {
       case CRITERIA_CLOSEST:
-        double distance;
+        
         if (data.length > 1) {
           distance = Double.valueOf(data[1]);
         } else {
           distance = 6d;
         }
         criterias.add(new ClosestAtomPairContactCriteria(distance));
+        break;
+      case CRITERIA_CLOSEST_BINNED:
+        if (data.length > 1) {
+          distance = Double.valueOf(data[1]);
+        } else {
+          distance = 6d;
+        }
+        criterias.add(new ClosestAtomPairContactBinnedCriteria(distance));
         break;
       case CRITERIA_INCHAIN:
         char chain;
