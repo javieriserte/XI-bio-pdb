@@ -16,11 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 import pair.Pair;
+
 import org.jiserte.biopdb.contacts.ClosestAtomPairContactCriteria;
 import org.jiserte.biopdb.contacts.ContactCriteria;
 import org.jiserte.biopdb.structures.Chain;
 import org.jiserte.biopdb.structures.SimplePdbReader;
 import org.jiserte.biopdb.structures.SpacePoint;
+
 import stringeditor.StringEditor;
 import cmdGA2.CommandLine;
 import cmdGA2.NoArgumentOption;
@@ -106,6 +108,8 @@ public class ContactMapper {
     // Export contacts
     for (Pair<SpacePoint, SpacePoint> pair : contacts) {
 
+      pair = ContactMapper.sortPoints(pair);
+      
       List<String> dataToExport = new ArrayList<String>();
 
       dataToExport.add(String.valueOf(pair.getFirst()
@@ -170,6 +174,32 @@ public class ContactMapper {
     }
     // /////////////////////////////////////////////////////////////////////////
 
+  }
+  
+  private static Pair<SpacePoint,SpacePoint> sortPoints(
+      Pair<SpacePoint,SpacePoint> points) {
+    
+    char chainId1 = points.getFirst().getChainIdentifier();
+    char chainId2 = points.getSecond().getChainIdentifier();
+    
+    if ( chainId1 < chainId2 ) {
+      return points;
+    }  
+    if (chainId2 < chainId1) {
+      return new Pair<SpacePoint,SpacePoint>(
+          points.getSecond(), points.getFirst());
+    } 
+    Integer resNum1 = points.getFirst().getResidueSequenceNumber();
+    Integer resNum2 = points.getSecond().getResidueSequenceNumber();
+      
+    if ( resNum1 < resNum2 ) {
+      return points;
+    } else if (resNum2 < resNum1) {
+      return new Pair<SpacePoint,SpacePoint>(
+          points.getSecond(), points.getFirst());
+    } else {
+      return null;
+    }
   }
 
 }

@@ -1,6 +1,6 @@
 package org.jiserte.biopdb.structures;
 
-import io.onelinelister.OneLineListReader.LineParser;
+import io.onelinelister.LineParser;
 
 public class SpacePointLineParser implements LineParser<SpacePoint>{
 

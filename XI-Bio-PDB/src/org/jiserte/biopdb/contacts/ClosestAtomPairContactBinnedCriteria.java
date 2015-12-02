@@ -62,10 +62,10 @@ public class ClosestAtomPairContactBinnedCriteria extends ContactCriteria {
 	  
 	  
 	  
-	  Pair<Residue, Residue> testPair = getSortedResiduePair(currentFirstPoint,
+	  Pair<Residue, Residue> testPair = this.getSortedResiduePair(currentFirstPoint,
 	      currentSecondPoint);
 	  
-	  if (this.evaluationResults.containsKey(testPair)) {
+	  if (testPair != null && this.evaluationResults.containsKey(testPair)) {
 	    return this.evaluationResults.get(testPair);
 	  } else {
 	    return null;
@@ -141,20 +141,22 @@ public class ClosestAtomPairContactBinnedCriteria extends ContactCriteria {
             Residue residue1 = this.pdb.get(chain1).getResidues().get(resNumber1);
             Residue residue2 = this.pdb.get(chain2).getResidues().get(resNumber2);
             
-            Pair<Residue,Residue> inContact = getSortedResiduePair(residue1,residue2 );
-           
-            if (results.containsKey(inContact)) {
-              Pair<SpacePoint, SpacePoint> old = results.get(inContact);
-              double oldDistance = old.getFirst().distanceTo(old.getSecond());
-              
-              if (distance<oldDistance) {
+            Pair<Residue,Residue> inContact = this.getSortedResiduePair(
+                residue1,residue2 );
+            if (inContact != null) {           
+              if (results.containsKey(inContact)) {
+                Pair<SpacePoint, SpacePoint> old = results.get(inContact);
+                double oldDistance = old.getFirst().distanceTo(old.getSecond());
+                
+                if (distance<oldDistance) {
+                  results.put(inContact, new Pair<SpacePoint, SpacePoint>( 
+                      atom1,  atom2));
+                }
+                
+              } else {
                 results.put(inContact, new Pair<SpacePoint, SpacePoint>( 
                     atom1,  atom2));
               }
-              
-            } else {
-              results.put(inContact, new Pair<SpacePoint, SpacePoint>( 
-                  atom1,  atom2));
             }
           }
         }
@@ -220,7 +222,8 @@ public class ClosestAtomPairContactBinnedCriteria extends ContactCriteria {
     if (! this.evaluated) {
       this.evaluate();
     }
-    return this.evaluationResults.keySet();
+    Set<Pair<Residue, Residue>> keySet = this.evaluationResults.keySet();
+    return keySet;
     
   }
   
@@ -231,20 +234,21 @@ public class ClosestAtomPairContactBinnedCriteria extends ContactCriteria {
     
     if ( chainId1 < chainId2 ) {
       return new Pair<Residue,Residue>(res1,res2);
-    } else 
+    }  
     if (chainId2 < chainId1) {
       return new Pair<Residue,Residue>(res2,res1);
+    } 
+    Integer resNum1 = res1.getResNumber();
+    Integer resNum2 = res2.getResNumber();
+      
+    if ( resNum1 < resNum2 ) {
+      return new Pair<Residue,Residue>(res1,res2);
+    } else if (resNum2 < resNum1) {
+      return new Pair<Residue,Residue>(res2,res1);
     } else {
-      Integer resNum1 = res1.getResNumber();
-      Integer resNum2 = res2.getResNumber();
-      
-      if ( resNum1 < resNum2 ) {
-        return new Pair<Residue,Residue>(res1,res2);
-      } else {
-        return new Pair<Residue,Residue>(res2,res1);
-      }
-      
+      return null;
     }
+    
   }
 
 }

@@ -1,7 +1,7 @@
 package org.jiserte.biopdb;
 
 import io.onelinelister.OneLineListReader;
-import io.onelinelister.OneLineListReader.LineParser;
+import io.onelinelister.LineParser;
 
 import java.io.BufferedReader;
 import java.io.File;
