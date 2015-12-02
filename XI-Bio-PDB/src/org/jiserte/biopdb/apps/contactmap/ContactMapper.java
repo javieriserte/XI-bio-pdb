@@ -1,4 +1,4 @@
-package org.jiserte.biopdb.contactmap;
+package org.jiserte.biopdb.apps.contactmap;
 
 import graphics.profile.PngWriter;
 import io.resources.ResourceContentAsString;

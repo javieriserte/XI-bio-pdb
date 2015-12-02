@@ -1,4 +1,4 @@
-package org.jiserte.biopdb;
+package org.jiserte.biopdb.apps.residuedistancecalculator;
 
 import io.onelinelister.OneLineListReader;
 import io.onelinelister.LineParser;

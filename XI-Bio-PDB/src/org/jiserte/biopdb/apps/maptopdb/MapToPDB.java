@@ -1,4 +1,4 @@
-package org.jiserte.biopdb.maptopdb;
+package org.jiserte.biopdb.apps.maptopdb;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

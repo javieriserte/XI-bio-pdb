@@ -1,4 +1,4 @@
-package org.jiserte.biopdb.contactmap;
+package org.jiserte.biopdb.apps.contactmap;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

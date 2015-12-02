@@ -1,4 +1,4 @@
-package org.jiserte.biopdb;
+package org.jiserte.biopdb.apps.residuedistancecalculator;
 
 import io.onelinelister.OneLineListReader;
 import io.onelinelister.LineParser;
@@ -15,8 +15,10 @@ import java.util.List;
 import java.util.Map;
 
 import pair.Pair;
+
 import org.jiserte.biopdb.structures.SpacePoint;
 import org.jiserte.biopdb.structures.SpacePointLineParser;
+
 import cmdGA.NoOption;
 import cmdGA.Parser;
 import cmdGA.SingleOption;

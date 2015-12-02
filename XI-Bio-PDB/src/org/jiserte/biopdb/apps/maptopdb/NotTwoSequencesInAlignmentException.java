@@ -1,4 +1,4 @@
-package org.jiserte.biopdb.maptopdb;
+package org.jiserte.biopdb.apps.maptopdb;
 
 public class NotTwoSequencesInAlignmentException extends Exception {
 
