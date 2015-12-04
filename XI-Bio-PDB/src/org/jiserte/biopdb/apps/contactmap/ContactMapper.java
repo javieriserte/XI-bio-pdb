@@ -17,7 +17,7 @@ import java.util.Map;
 
 import pair.Pair;
 
-import org.jiserte.biopdb.contacts.ClosestAtomPairContactCriteria;
+import org.jiserte.biopdb.contacts.ClosestAtomPairContactBinned3DCriteria;
 import org.jiserte.biopdb.contacts.ContactCriteria;
 import org.jiserte.biopdb.structures.Chain;
 import org.jiserte.biopdb.structures.SimplePdbReader;
@@ -50,7 +50,7 @@ public class ContactMapper {
     SingleArgumentOption<ContactCriteria> critOpt = 
         new SingleArgumentOption<ContactCriteria>(
         cmd, "--criteria", new ContactCriteriaValue(),
-        new ClosestAtomPairContactCriteria(6));
+        new ClosestAtomPairContactBinned3DCriteria(6));
     NoArgumentOption exportChainOpt = new NoArgumentOption(cmd, "--withChains");
     NoArgumentOption exportAtomsOpt = new NoArgumentOption(cmd, "--withAtoms");
     NoArgumentOption exportCoordinatesOpt = new NoArgumentOption(cmd,

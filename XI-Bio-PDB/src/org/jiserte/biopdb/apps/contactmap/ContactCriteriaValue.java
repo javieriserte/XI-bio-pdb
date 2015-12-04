@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Set;
 
 import org.jiserte.biopdb.contacts.AndContactCriteria;
+import org.jiserte.biopdb.contacts.ClosestAtomPairContactBinned3DCriteria;
 import org.jiserte.biopdb.contacts.ClosestAtomPairContactBinnedCriteria;
 import org.jiserte.biopdb.contacts.ClosestAtomPairContactCriteria;
 import org.jiserte.biopdb.contacts.ContactCriteria;
 import org.jiserte.biopdb.contacts.ResidueInChainCriteria;
 import org.jiserte.biopdb.contacts.ResidueInDifferentChainCriteria;
 import org.jiserte.biopdb.contacts.ResidueInManyChainsCriteria;
+
 import cmdGA2.returnvalues.ReturnValueParser;
 
 public class ContactCriteriaValue extends ReturnValueParser<ContactCriteria> {
@@ -23,6 +25,7 @@ public class ContactCriteriaValue extends ReturnValueParser<ContactCriteria> {
   public static final String CRITERIA_MANYCHAINS = "chains";
   public static final String CRITERIA_DIFF_CHAIN = "diffchain";
   public static final String CRITERIA_CLOSEST_BINNED = "binned";
+  public static final String CRITERIA_CLOSEST_BINNED_3D = "binned3d";
 
   // ///////////////////////////////////////////////////////////////////////////
 
@@ -58,6 +61,15 @@ public class ContactCriteriaValue extends ReturnValueParser<ContactCriteria> {
         }
         criterias.add(new ClosestAtomPairContactBinnedCriteria(distance));
         break;
+      case CRITERIA_CLOSEST_BINNED_3D:
+        if (data.length > 1) {
+          distance = Double.valueOf(data[1]);
+        } else {
+          distance = 6d;
+        }
+        criterias.add(new ClosestAtomPairContactBinned3DCriteria(distance));
+        break;
+        
       case CRITERIA_INCHAIN:
         char chain;
         if (data.length > 1) {

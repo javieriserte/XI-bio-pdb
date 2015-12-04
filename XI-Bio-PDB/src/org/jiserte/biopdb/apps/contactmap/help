@@ -10,10 +10,25 @@ Options:
    
    --criteria         Criteria to select pair of residues that are in contact.
                         Default criteria is closest atom between two residues
-                        must be a 6 or less Angstroms (closest,6).
+                        must be a 6 or less Angstroms using a 3D grid to bin 
+                        points (binned3d,6).
+                        Criterias: available are:
+                         - closest,X       | where X is a distance in Angstroms
+                           Searches every atom pair.
+                         - binned,X        | where X is a distance in Angstroms
+                           Bins atoms by distance to the origin.
+                         - binned3d,X      | where X is a distance in Angstroms
+                           Bins atoms in a 3D grid.
+                         - chain,X         | where X is a PDB Chain
+                           Atoms in pair must belong to the given chain.
+                         - chains,X,Y,..   | where X,Y,.. are PDB chains
+                           Atoms in pair must belong to any given chain.
+                         - diffchain,X,Y,..| where X,Y,.. are PDB chains
+                           Atoms in pair must belong to any given chain, but 
+                           cannot be the same chain.
    
-   --draw             String. Path to an file where to export an image of the contact 
-                        map.
+   --draw             String. Path to an file where to export an image of the 
+                        contact map.
 
    --withChains       Flag. Shows the chains identifiers in the output.
    
